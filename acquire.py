@@ -32,13 +32,15 @@ def get_info_for_codeup_blogs():
 
 
 ############# for acquiring codeup blog articles 
-def get_blog_articles(websites, title_finder, body_finder):
+def get_blog_articles():
     '''
     This function takes in a list of website urls, 
     the title finder and body finder (must be the same for each article)
     And returns a list of dictionaries with title text and body text in dictionaries
     Keys in dictionaries are 'title' and 'content'
     '''
+    
+    websites, title_finder, body_finder = get_info_for_codeup_blogs()
     
     # initalize empty list for the dictionaries
     article_list = []
@@ -47,13 +49,13 @@ def get_blog_articles(websites, title_finder, body_finder):
     headers = {'User-Agent': 'Codeup Data Science'} 
     
     # loop through list of websites
-    for website in website_list: 
+    for website in websites: 
         
         # get response
         response = get(website, headers=headers)
     
         # create soup object
-        soup = BeautifulSoup(response.text)
+        soup = BeautifulSoup(response.text, features="lxml")
         # find title
         #title = soup.find('header', class_=title_finder).text
         title = soup.title.string
@@ -69,7 +71,7 @@ def get_blog_articles(websites, title_finder, body_finder):
         # add dictionary to list of dictionaries
         article_list.append(dictionary)
         
-    return article_list
+    return pd.DataFrame(article_list)
 
 ############ creates urls from a baseurl and different endpoints
 ########### used inside the get_blog_articles2 function
