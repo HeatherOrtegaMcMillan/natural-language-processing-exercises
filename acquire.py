@@ -92,14 +92,14 @@ def create_urls(base_url, categories):
 
 ############## function for getting the title and contents from blog articles
 
-def get_blog_articles2(base_url, categories): # title_finder, body_finder
+def get_blog_articles2(base_url = 'https://inshorts.com/en/read', categories = ['sports', 'entertainment', 'business', 'technology']): # title_finder, body_finder
     '''
     This function takes in a list of website urls, 
     the title finder and body finder (must be the same for each article)
     And returns a list of dictionaries with title text and body text in dictionaries
     Keys in dictionaries are 'title' and 'content'
     '''
-    
+
     # initalize empty list for the dictionaries
     article_list = []
     
@@ -116,7 +116,7 @@ def get_blog_articles2(base_url, categories): # title_finder, body_finder
         response = get(website, headers=headers)
     
         # create soup object
-        soup = BeautifulSoup(response.text)
+        soup = BeautifulSoup(response.text, features="lxml")
         
         # find titles
         headlines= soup.find_all('span', itemprop = 'headline')
