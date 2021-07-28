@@ -35,7 +35,7 @@ def basic_clean(string):
     .decode('utf-8', 'ignore')
     
     # remove everything thats not a number letter ' or whitespace
-    new_string = re.sub(r"[^a-z0-9'\s]", '', new_string)
+    new_string = re.sub(r"[^a-z0-9\s]", '', new_string)
     
     return new_string
 
@@ -132,7 +132,7 @@ def prep_nlp(df, content = 'content', extra_words = [], exclude_words=[] ):
     df['original'] = df[content]
     
     #clean (normalized, tokenized, no stopwords)
-    df['clean'] = df['content'].apply(basic_clean).apply(tokenize_me).apply(lambda x: remove_stopwords(x, extra_words, exclude_words))
+    df['clean'] = df[content].apply(basic_clean).apply(tokenize_me).apply(lambda x: remove_stopwords(x, extra_words, exclude_words))
     
     #stemmed (version of clean)
     df['stemmed'] = df['clean'].apply(stem)
